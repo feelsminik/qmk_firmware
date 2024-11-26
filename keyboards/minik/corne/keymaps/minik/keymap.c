@@ -1,5 +1,7 @@
 #include QMK_KEYBOARD_H
 
+#include "quantum.h"
+
 enum layers {
     _BASE,
     _NAV,
@@ -60,3 +62,29 @@ const key_override_t capsword_key_override = ko_make_basic(MOD_MASK_SHIFT, CW_TO
 const key_override_t *key_overrides[] = {
     &capsword_key_override
 };
+
+// The LEDs are so bright on the Corne, so we set the intensity pretty low.
+#define LED_INTENSITY 0x16
+// Define the usual colors using the desired LED_INTENSITY defined above.
+#define RGB_DARK_BLUE 0x00, 0x00, LED_INTENSITY
+#define RGB_DARK_CYAN 0x00, LED_INTENSITY, LED_INTENSITY
+#define RGB_DARK_GREEN 0x00, LED_INTENSITY, 0x00
+#define RGB_DARK_MAGENTA LED_INTENSITY, 0x00, LED_INTENSITY
+#define RGB_DARK_RED LED_INTENSITY, 0x00, 0x00
+#define RGB_DARK_WHITE LED_INTENSITY, LED_INTENSITY, LED_INTENSITY
+#define RGB_DARK_YELLOW LED_INTENSITY, LED_INTENSITY, 0x00
+
+bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+    // should be left
+    if(is_keyboard_master()) {
+        for (int i = 0; i < 27; i++) {
+            rgb_matrix_set_color(i, RGB_DARK_CYAN);
+        }
+    } else { // should be right
+        for (int i = 27; i < 54; i++) {
+            rgb_matrix_set_color(i, RGB_DARK_CYAN);
+        }
+        rgb_matrix_set_color(48, RGB_DARK_MAGENTA);
+    }
+    return true;
+}
