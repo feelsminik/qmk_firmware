@@ -12,6 +12,7 @@ enum layers {
     _FUN,
 };
 
+// clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_BASE] = LAYOUT_split_3x6_3(
         KC_NO, KC_Q, KC_W, KC_F, KC_P, KC_B,                                        KC_J, KC_L, KC_U, KC_Y, KC_QUOT, KC_NO,
@@ -56,12 +57,32 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_APP, KC_SPC, KC_TAB,                             KC_NO, KC_NO, KC_NO
     )
 };
+// clang-format on
 
-// lets me use regular caps when holding down SHIFT, otherwise use smart caps toggle
-const key_override_t capsword_key_override = ko_make_basic(MOD_MASK_SHIFT, CW_TOGG, KC_CAPS);
-const key_override_t *key_overrides[] = {
-    &capsword_key_override
-};
+// lets me use regular caps when holding down SHIFT, otherwise use smart caps
+// toggle
+const key_override_t capsword_key_override =
+    ko_make_basic(MOD_MASK_SHIFT, CW_TOGG, KC_CAPS);
+const key_override_t *key_overrides[] = {&capsword_key_override};
+
+// custom tapping term
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case LSFT_T(KC_N):
+        case LSFT_T(KC_T):
+            return TAPPING_TERM - 45;
+        case LT(_SYM, KC_ENTER):
+        case LT(_NUM, KC_BSPC):
+            return TAPPING_TERM - 35;
+        case LGUI_T(KC_A):
+        case LGUI_T(KC_O):
+        case LALT_T(KC_R):
+        case LALT_T(KC_I):
+            return TAPPING_TERM + 35;
+        default:
+            return TAPPING_TERM;
+    }
+}
 
 // The LEDs are so bright on the Corne, so we set the intensity pretty low.
 #define LED_INTENSITY 0x16
@@ -76,11 +97,11 @@ const key_override_t *key_overrides[] = {
 
 bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     // should be left
-    if(is_keyboard_master()) {
+    if (is_keyboard_master()) {
         for (int i = 0; i < 27; i++) {
             rgb_matrix_set_color(i, RGB_DARK_CYAN);
         }
-    } else { // should be right
+    } else {  // should be right
         for (int i = 27; i < 54; i++) {
             rgb_matrix_set_color(i, RGB_DARK_CYAN);
         }

@@ -15,3 +15,6 @@
  */
 
 #pragma once
+
+// Light up keys when pressed, then fade to unlit.
+#define RGB_MATRIX_SLEEP
