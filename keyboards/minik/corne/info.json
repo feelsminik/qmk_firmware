@@ -1,7 +1,7 @@
 {
     "manufacturer": "splitkb.com",
     "url": "https://splitkb.com/products/aurora-corne-pcb-kit",
-    "maintainer": "splitkb",
+    "maintainer": "Minik",
     "usb": {
         "vid": "0x8D1D",
         "device_version": "1.0.0"
