@@ -18,3 +18,11 @@
 
 // Light up keys when pressed, then fade to unlit.
 #define RGB_MATRIX_SLEEP
+#define MASTER_LEFT
+#define SPLIT_MODS_ENABLE
+
+// Allow the current layer to be synced between the halves.
+#define SPLIT_LAYER_STATE_ENABLE
+
+// Allow the state of caps lock, num lock, etc. to be synced between the halves.
+#define SPLIT_LED_STATE_ENABLE

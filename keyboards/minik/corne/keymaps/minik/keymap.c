@@ -1,111 +1,158 @@
 #include QMK_KEYBOARD_H
 
-#include "quantum.h"
-
 enum layers {
-    _BASE,
-    _NAV,
-    _MOUSE,
-    _MEDIA,
-    _NUM,
-    _SYM,
-    _FUN,
+	_BASE,
+	_NAV,
+	_MOD,
+	_MEDIA,
+	_NUM,
+	_SYM,
+	_FUN,
 };
+
+// clang-format off
+#define MEDIA_ESC   LT(_MEDIA, KC_ESC)
+#define NAV_SPC     LT(_NAV, KC_SPC)
+#define FN_DEL      LT(_FUN, KC_DEL)
+#define SYM_ENT     LT(_SYM, KC_ENT)
+#define NUM_BSCP    LT(_NUM, KC_BSPC)
+#define MOD_TAB     LT(_MOD, KC_TAB)
+// clang-format on
+
+#define O_LSFT OSM(MOD_LSFT)
+#define O_LGUI OSM(MOD_LGUI)
+#define O_RALT OSM(MOD_RALT)
+#define O_LCTL OSM(MOD_LCTL)
+#define O_LALT OSM(MOD_LALT)
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_BASE] = LAYOUT_split_3x6_3(
-        KC_NO, KC_Q, KC_W, KC_F, KC_P, KC_B,                                        KC_J, KC_L, KC_U, KC_Y, KC_QUOT, KC_NO,
-        KC_NO, LGUI_T(KC_A), LALT_T(KC_R), LCTL_T(KC_S), LSFT_T(KC_T), KC_G,        KC_M, LSFT_T(KC_N), LCTL_T(KC_E), LALT_T(KC_I), LGUI_T(KC_O), KC_NO,
-        KC_NO, KC_Z, ALGR_T(KC_X), KC_C, KC_D, KC_V,                                KC_K, KC_H, KC_COMM, ALGR_T(KC_DOT), KC_SLSH, KC_NO,
-        LT(_MEDIA, KC_ESC), LT(_NAV, KC_SPC), LT(_MOUSE, KC_TAB),                   LT(_SYM, KC_ENT), LT(_NUM, KC_BSPC), LT(_FUN, KC_DEL)
+        _______,   KC_Q,     KC_W,    KC_F,   KC_P,  KC_B,               KC_J,  KC_L,  KC_U,     KC_Y,      KC_QUOT,  _______,
+        KC_LSFT,   KC_A,     KC_R,    KC_S,   KC_T,  KC_G,               KC_M,  KC_N,  KC_E,     KC_I,      KC_O,     KC_LSFT,
+        _______, KC_Z,     KC_X,    KC_C,   KC_D,  KC_V,               KC_K,  KC_H,  KC_COMM,  KC_DOT,    KC_SLSH,  _______,
+                             MEDIA_ESC, NAV_SPC, MOD_TAB,               SYM_ENT, NUM_BSCP, FN_DEL
     ),
     [_NAV] = LAYOUT_split_3x6_3(
-        KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,           KC_AGIN, KC_PSTE, KC_COPY, KC_CUT, KC_UNDO, KC_NO,
-        KC_NO, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, KC_NO,   KC_LEFT, KC_DOWN, KC_UP, KC_RGHT, CW_TOGG, KC_NO,
-        KC_NO, KC_NO, KC_ALGR, KC_NO, KC_NO, KC_NO,         KC_INS, KC_HOME, KC_PGDN, KC_PGUP, KC_END, KC_NO,
-        KC_NO, KC_NO, KC_NO,                                KC_ENT, KC_BSPC, KC_DEL
+        _______,  _______,  _______,  _______,  _______,  _______,       KC_AGIN,  KC_PSTE,  KC_COPY,  KC_CUT,   KC_UNDO,  _______,
+        KC_LSFT,  KC_LGUI,  KC_LALT,  KC_LCTL,  _______,  _______,       KC_LEFT,  KC_DOWN,  KC_UP,    KC_RGHT,  CW_TOGG,  KC_LSFT,
+        _______,  _______,  KC_ALGR,  _______,  _______,  _______,       _______,   KC_HOME,  KC_PGDN,  KC_PGUP,  KC_END,   _______,
+                                      _______,  _______,  _______,       KC_ENT,   KC_BSPC,  KC_DEL
     ),
-    [_MOUSE] = LAYOUT_split_3x6_3(
-        KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,           KC_AGIN, KC_PSTE, KC_COPY, KC_CUT, KC_UNDO, KC_NO,
-        KC_NO, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, KC_NO,   KC_NO, KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, KC_NO,
-        KC_NO, KC_NO, KC_ALGR, KC_NO, KC_NO, KC_NO,         KC_NO, KC_WH_L, KC_WH_D, KC_WH_U, KC_WH_R, KC_NO,
-        KC_NO, KC_NO, KC_NO,                                KC_BTN2, KC_BTN1, KC_BTN3
+    [_MOD] = LAYOUT_split_3x6_3(
+        _______, _______, _______, _______, _______, _______,            _______, _______, _______, _______, _______, _______,
+        O_LSFT,  O_LGUI,  O_LALT,  O_LCTL,  _______, _______,            _______, _______, O_LCTL,  O_LALT,  O_LGUI,  O_LSFT,
+        _______, _______, O_RALT,  _______, _______, _______,            _______, _______, _______, O_RALT,  _______,  _______,
+                                   KC_ESC,  KC_SPC,  KC_TAB,             KC_ENT, KC_BSPC, KC_DEL
     ),
     [_MEDIA] = LAYOUT_split_3x6_3(
-        KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,           RGB_MOD, RGB_HUI, RGB_SAI, RGB_VAI,  RGB_TOG, KC_NO,
-        KC_NO, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, KC_NO,   KC_NO, KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT,  KC_NO,
-        KC_NO, KC_NO, KC_ALGR, KC_NO, KC_NO, KC_NO,         KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
-        KC_NO, KC_NO, KC_NO,                                KC_MSTP, KC_MPLY, KC_MUTE
+        _______, _______, _______, _______, _______, _______,            RGB_MOD, RGB_HUI, RGB_SAI, RGB_VAI, RGB_TOG, _______,
+        KC_LSFT, KC_LGUI, KC_LALT, KC_LCTL, _______, _______,            _______, KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, KC_LSFT,
+        _______, _______, KC_ALGR, _______, _______, _______,            _______, _______, _______, _______, _______, _______,
+                                   _______, _______, _______,            KC_MSTP, KC_MPLY, _______
     ),
     [_NUM] = LAYOUT_split_3x6_3(
-        KC_NO, KC_LBRC, KC_7,  KC_8, KC_9, KC_RBRC,             KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
-        KC_NO, KC_SCLN, KC_4, KC_5, KC_6, KC_EQL,               KC_NO, KC_LSFT, KC_LCTL, KC_LALT, KC_LGUI, KC_NO,
-        KC_NO, KC_GRV, KC_1, KC_2, KC_3, KC_BSLS,               KC_NO, KC_NO, KC_NO, KC_ALGR, KC_NO, KC_NO,
-        KC_DOT, KC_0, KC_MINS,                                  KC_NO, KC_NO, KC_NO
+        _______, KC_LBRC, KC_7,  KC_8, KC_9, KC_RBRC,                    _______, _______, _______, _______, _______, _______,
+        KC_LSFT, KC_SCLN, KC_4, KC_5, KC_6, KC_EQL,                      _______, _______, KC_LCTL, KC_LALT, KC_LGUI, KC_LSFT,
+        _______, KC_GRV, KC_1, KC_2, KC_3, KC_BSLS,                      _______, _______, _______, KC_ALGR, _______, _______,
+                             KC_DOT, KC_0, KC_MINS,                      _______, _______, _______
     ),
     [_SYM] = LAYOUT_split_3x6_3(
-        KC_NO, KC_LCBR, KC_AMPR, KC_ASTR, KC_LPRN, KC_RCBR,        KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
-        KC_NO, KC_COLN, KC_DLR,  KC_PERC, KC_CIRC, KC_PLUS,        KC_NO, KC_LSFT, KC_LCTL, KC_LALT, KC_LGUI, KC_NO,
-        KC_NO, KC_TILD, KC_EXLM, KC_AT, KC_HASH, KC_PIPE,          KC_NO, KC_NO, KC_NO, KC_ALGR, KC_NO, KC_NO,
-        KC_LPRN, KC_RPRN, KC_UNDS,                                 KC_NO, KC_NO, KC_NO
+        _______, KC_LCBR, KC_AMPR, KC_ASTR, KC_LPRN, KC_RCBR,            _______, _______, _______, _______, _______, _______,
+        KC_LSFT, KC_COLN, KC_DLR,  KC_PERC, KC_CIRC, KC_PLUS,            _______, _______, KC_LCTL, KC_LALT, KC_LGUI, KC_LSFT,
+        _______, KC_TILD, KC_EXLM, KC_AT, KC_HASH,   KC_PIPE,            _______, _______, _______, KC_ALGR, _______, _______,
+                                   KC_LPRN, KC_RPRN, KC_UNDS,            _______, _______, _______
     ),
     [_FUN] = LAYOUT_split_3x6_3(
-        KC_NO, KC_F12, KC_F7, KC_F8, KC_F9, KC_PSCR,        KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
-        KC_NO, KC_F11, KC_F4, KC_F5, KC_F6, KC_SCRL,        KC_NO, KC_LSFT, KC_LCTL, KC_LALT, KC_LGUI, KC_NO,
-        KC_NO, KC_F10, KC_F1, KC_F2, KC_F3, KC_PAUS,        KC_NO, KC_NO, KC_NO, KC_ALGR, KC_NO, KC_NO,
-        KC_APP, KC_SPC, KC_TAB,                             KC_NO, KC_NO, KC_NO
+        _______, KC_F12, KC_F7, KC_F8, KC_F9, KC_PSCR,                   _______, _______, _______, _______, _______, _______,
+        KC_LSFT, KC_F11, KC_F4, KC_F5, KC_F6, KC_SCRL,                   _______, _______, KC_LCTL, KC_LALT, KC_LGUI, KC_LSFT,
+        _______, KC_F10, KC_F1, KC_F2, KC_F3, KC_PAUS,                   _______, _______, _______, KC_ALGR, _______, _______,
+                               KC_APP, KC_SPC, KC_TAB,                   _______, _______, _______
     )
 };
 // clang-format on
-
-// lets me use regular caps when holding down SHIFT, otherwise use smart caps
-// toggle
 const key_override_t capsword_key_override =
-    ko_make_basic(MOD_MASK_SHIFT, CW_TOGG, KC_CAPS);
+	ko_make_basic(MOD_MASK_SHIFT, CW_TOGG, KC_CAPS);
 const key_override_t *key_overrides[] = {&capsword_key_override};
 
 // custom tapping term
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        case LSFT_T(KC_N):
-        case LSFT_T(KC_T):
-            return TAPPING_TERM - 45;
-        case LT(_SYM, KC_ENTER):
-        case LT(_NUM, KC_BSPC):
-            return TAPPING_TERM - 35;
-        case LGUI_T(KC_A):
-        case LGUI_T(KC_O):
-        case LALT_T(KC_R):
-        case LALT_T(KC_I):
-            return TAPPING_TERM + 35;
-        default:
-            return TAPPING_TERM;
-    }
+	switch (keycode) {
+	case MOD_TAB:
+		return 115;
+	default:
+		return TAPPING_TERM;
+	}
 }
 
-// The LEDs are so bright on the Corne, so we set the intensity pretty low.
-#define LED_INTENSITY 0x16
-// Define the usual colors using the desired LED_INTENSITY defined above.
-#define RGB_DARK_BLUE 0x00, 0x00, LED_INTENSITY
-#define RGB_DARK_CYAN 0x00, LED_INTENSITY, LED_INTENSITY
-#define RGB_DARK_GREEN 0x00, LED_INTENSITY, 0x00
-#define RGB_DARK_MAGENTA LED_INTENSITY, 0x00, LED_INTENSITY
-#define RGB_DARK_RED LED_INTENSITY, 0x00, 0x00
-#define RGB_DARK_WHITE LED_INTENSITY, LED_INTENSITY, LED_INTENSITY
-#define RGB_DARK_YELLOW LED_INTENSITY, LED_INTENSITY, 0x00
+// clang-format off
+#define LED_INTENSITY      0x08
+#define RGB_DARK_CYAN      0x00, LED_INTENSITY, LED_INTENSITY
+#define RGB_DARK_MAGENTA   LED_INTENSITY, 0x00, LED_INTENSITY
+#define RGB_DARK_PURPLE    LED_INTENSITY, 0x00, 0x40
+#define RGB_DARK_WHITE     LED_INTENSITY, LED_INTENSITY, LED_INTENSITY
 
-bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
-    // should be left
-    if (is_keyboard_master()) {
-        for (int i = 0; i < 27; i++) {
-            rgb_matrix_set_color(i, RGB_DARK_CYAN);
-        }
-    } else {  // should be right
-        for (int i = 27; i < 54; i++) {
-            rgb_matrix_set_color(i, RGB_DARK_CYAN);
-        }
-        rgb_matrix_set_color(48, RGB_DARK_MAGENTA);
-    }
-    return true;
+/*
+    SplitKB Aurora Corne schematic, under: ../../schematic/ (goto file)
+*/
+
+#define LED_SW21_LEFT      g_led_config.matrix_co[3][0]
+#define LED_SW20_LEFT      g_led_config.matrix_co[3][1]
+#define LED_SW19_LEFT      g_led_config.matrix_co[3][2]
+
+#define LED_SW21_RIGHT     g_led_config.matrix_co[7][0]
+#define LED_SW20_RIGHT     g_led_config.matrix_co[7][1]
+#define LED_SW19_RIGHT     g_led_config.matrix_co[7][2]
+
+#define LED_SW06_LEFT      g_led_config.matrix_co[0][0]
+#define LED_SW12_LEFT      g_led_config.matrix_co[1][0]
+#define LED_SW18_LEFT      g_led_config.matrix_co[2][0]
+
+#define LED_SW06_RIGHT     g_led_config.matrix_co[4][0]
+#define LED_SW12_RIGHT     g_led_config.matrix_co[5][0]
+#define LED_SW18_RIGHT     g_led_config.matrix_co[6][0]
+
+#define NON_THUMB_KEY_ROWS               3
+// clang-format on
+
+void set_thumb_keys(void) {
+	rgb_matrix_set_color(LED_SW20_LEFT, RGB_DARK_WHITE);
+	rgb_matrix_set_color(LED_SW20_RIGHT, RGB_DARK_WHITE);
+
+	rgb_matrix_set_color(LED_SW21_RIGHT, RGB_DARK_WHITE);
+	rgb_matrix_set_color(LED_SW21_LEFT, RGB_DARK_WHITE);
+
+	if (get_highest_layer(layer_state) == _MOD) {
+		rgb_matrix_set_color(LED_SW19_LEFT, RGB_DARK_PURPLE);
+		rgb_matrix_set_color(LED_SW19_RIGHT, RGB_DARK_PURPLE);
+	} else {
+		rgb_matrix_set_color(LED_SW19_LEFT, RGB_DARK_MAGENTA);
+		rgb_matrix_set_color(LED_SW19_RIGHT, RGB_DARK_MAGENTA);
+	}
+}
+
+void set_underglow(uint8_t column) {
+	rgb_matrix_set_color(column, RGB_DARK_CYAN); // UNDERGLOW LEDs
+	rgb_matrix_set_color(column + 27, RGB_DARK_CYAN);
+}
+
+
+uint8_t matrix_config(uint8_t i, uint8_t j) {
+	return g_led_config.matrix_co[i][j];
+}
+
+void set_keylight(uint8_t row, uint8_t column) {
+	rgb_matrix_set_color(matrix_config(row, column), RGB_DARK_CYAN);
+	rgb_matrix_set_color(matrix_config(row + 4, column), RGB_DARK_CYAN);
+}
+
+bool rgb_matrix_indicators_kb(void) {
+	for (uint8_t i = 0; i < NON_THUMB_KEY_ROWS; i++) {
+		for (uint8_t j = 0; j < MATRIX_COLS; j++) {
+			set_underglow(j);
+			set_keylight(i, j);
+		}
+	}
+	set_thumb_keys();
+	return true;
 }

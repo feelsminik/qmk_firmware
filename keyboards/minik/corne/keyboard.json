@@ -7,10 +7,10 @@
         "matrix": [0, 5]
     },
     "features": {
-        "mousekey": true,
+        "mousekey": false,
         "bootmagic": true,
         "extrakey": true,
-        "oled": true,
+        "oled": false,
         "rgb_matrix": true
     },
     "community_layouts": [
