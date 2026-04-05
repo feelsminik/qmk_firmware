@@ -11,6 +11,7 @@ enum layers {
 };
 
 // clang-format off
+// Short presses register as right key, long presses register as layer switch
 #define MEDIA_ESC   LT(_MEDIA, KC_ESC)
 #define NAV_SPC     LT(_NAV, KC_SPC)
 #define FN_DEL      LT(_FUN, KC_DEL)
@@ -32,9 +33,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                       _______,  _______,  _______,       KC_ENT,   KC_BSPC,  KC_DEL
     ),
     [_MOD_LEFT] = LAYOUT_split_3x6_3(
-        _______, _______,   _______,  _______, _______, _______,         KC_J,  KC_L,  KC_U,     KC_Y,      KC_QUOT,  _______,
-        KC_LSFT,  KC_LGUI,  KC_LALT,  KC_LCTL, _______, _______,         KC_M,  KC_N,  KC_E,     KC_I,      KC_O,     KC_LSFT,
-        _______,  _______,  KC_ALGR,  _______, _______, _______,         KC_K,  KC_H,  KC_COMM,  KC_DOT,    KC_SLSH,  _______,
+        _______, _______,   _______,  _______, _______, _______,         _______,  _______,  _______,  _______, _______, _______,
+        OS_LSFT,  OS_LGUI,  OS_LALT,  OS_LCTL, _______, _______,         _______,  _______,  _______,  _______, _______, _______,
+        _______,  _______,  OS_RALT,  _______, _______, _______,         _______,  _______,  _______,  _______, _______, _______,
                                       _______, _______, _______,         KC_ENT, KC_BSPC, KC_DEL
     ),
     [_MOD_RIGHT] = LAYOUT_split_3x6_3(
@@ -45,8 +46,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     [_MEDIA] = LAYOUT_split_3x6_3(
         _______, _______, _______, _______, _______, _______,            RGB_MOD, RGB_HUI, RGB_SAI, RGB_VAI, RGB_TOG, _______,
-        KC_LSFT, KC_LGUI, KC_LALT, KC_LCTL, _______, _______,            _______, KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, _______,
-        _______, _______, KC_ALGR, _______, _______, _______,            _______, _______, _______, _______, _______, _______,
+        OSM(KC_LSFT), OS_LGUI, OS_LALT, OS_LCTL, _______, _______,            _______, KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, _______,
+        _______, _______, OS_RALT, _______, _______, _______,            _______, _______, _______, _______, _______, _______,
                                    _______, _______, _______,            KC_MSTP, KC_MPLY, _______
     ),
     [_NUM] = LAYOUT_split_3x6_3(
