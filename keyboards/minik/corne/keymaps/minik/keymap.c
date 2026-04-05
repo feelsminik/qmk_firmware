@@ -45,7 +45,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                   KC_ESC,  KC_SPC, KC_TAB,               _______, _______, _______
     ),
     [_MEDIA] = LAYOUT_split_3x6_3(
-        _______, _______, _______, _______, _______, _______,            RGB_MOD, RGB_HUI, RGB_SAI, RGB_VAI, RGB_TOG, _______,
+        _______, _______, _______, _______, _______, _______,            RM_NEXT, RM_HUEU, RM_SATU, RM_VALU, RM_TOGG, _______,
         OSM(KC_LSFT), OS_LGUI, OS_LALT, OS_LCTL, _______, _______,            _______, KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, _______,
         _______, _______, OS_RALT, _______, _______, _______,            _______, _______, _______, _______, _______, _______,
                                    _______, _______, _______,            KC_MSTP, KC_MPLY, _______
